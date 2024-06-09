@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ filtered logger """
-from re import sub
+import re
 
 
 def filter_datum(fields, redaction, message, separator) -> str:
@@ -12,10 +12,5 @@ def filter_datum(fields, redaction, message, separator) -> str:
         message (str): a string representing the log line
         separator (str): the string separator for the fields
     """
-    regex_pattern =  f"({'|'.join(fields)})=.+?({separator}|$)"
-    return sub(
-        regex_pattern,
-        lambda m:
-        f"{m.group(1)}={redaction}{separator if m.group(2) == separator else ''}",
-        message
-        )
+    pattern = f"({'|'.join(fields)})=([^\\{separator}]*)"
+    return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}", message)
