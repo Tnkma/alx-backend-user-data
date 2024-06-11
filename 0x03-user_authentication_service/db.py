@@ -27,7 +27,7 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
+
     def add_user(self, email: str, hashed_password: str) -> User:
         """Add a new user to the database
 
@@ -38,7 +38,12 @@ class DB:
         Returns:
             User: The User model
         """
-        new_user = User(email=email, hashed_password=hashed_password)
-        self._session.add(new_user)
-        self._session.commit()
+        try:
+            new_user = User(email=email, hashed_password=hashed_password)
+            self._session.add(new_user)
+            self._session.commit()
+        except Exception:
+            # if the transc fails, we rollback and return to the first state
+            self._session.rollback()
+            new_user = None
         return new_user
