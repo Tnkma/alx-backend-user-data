@@ -13,7 +13,7 @@ class User(Base):
     """User model
 
     Args:
-        Base (_type_): Base class for the User model
+        Base (_type_): Base class for the User models
     """
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
