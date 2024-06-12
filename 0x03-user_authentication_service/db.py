@@ -53,7 +53,6 @@ class DB:
 
         Returns:
             User:The first row found in the users table by the given attribute
-   
         Raises:
             NoResultFound: If no user is found that matches the criteria.
             InvalidRequestError: If invalid arguments are passed to the query.
