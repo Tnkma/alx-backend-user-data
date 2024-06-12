@@ -59,9 +59,13 @@ class DB:
             InvalidRequestError: If invalid arguments are passed to the query.
         """
         for key, value in kwargs.items():
-            if not hasattr(User, key):
+            if hasattr(User, key):
+                query = self._session.query(User).filter(
+                    getattr(User, key) == value
+                    )
+            else:
                 raise InvalidRequestError
-        query = self._session.query(User).filter_by(**kwargs).first()
-        if query is None:
+        user = query.one()
+        if user is None:
             raise NoResultFound
-        return query
+        return user
