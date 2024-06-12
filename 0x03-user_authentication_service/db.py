@@ -4,6 +4,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound, InvalidRequestError
 from user import Base, User
 
 
@@ -47,3 +48,16 @@ class DB:
             self._session.rollback()
             new_user = None
         return new_user
+    
+    def find_user_by(self, **kwargs) -> User:
+        """Find a user by a given attribute
+
+        Returns:
+            User:The first row found in the users table by the given attribute
+            
+        Raises:
+            NoResultFound: If no user is found that matches the criteria.
+            InvalidRequestError: If invalid arguments are passed to the query.
+        """
+        
+        
