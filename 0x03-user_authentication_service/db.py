@@ -4,6 +4,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import NoResultFound, InvalidRequestError
 from user import Base, User
 
 
@@ -57,3 +58,10 @@ class DB:
             NoResultFound: If no user is found that matches the criteria.
             InvalidRequestError: If invalid arguments are passed to the query.
         """
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise InvalidRequestError
+        query = self._session.query(User).filter_by(**kwargs).first()
+        if query is None:
+            raise NoResultFound
+        return query
