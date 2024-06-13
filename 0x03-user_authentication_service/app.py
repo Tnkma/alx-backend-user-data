@@ -4,7 +4,6 @@ from flask import Flask, jsonify, request, abort, make_response
 from auth import Auth
 
 
-
 app = Flask(__name__)
 AUTH = Auth()
 
@@ -17,6 +16,7 @@ def hello() -> str:
         str: A jsonified string
     """
     return jsonify({"message": "Bienvenue"})
+
 
 #  Define a users function that implements the POST /users route.
 @app.route('/users', methods=['POST'], strict_slashes=False)
