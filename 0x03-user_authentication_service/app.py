@@ -37,5 +37,30 @@ def users() -> str:
             )
 
 
+# Define a login method that implements the POST /sessions route.
+# The request is expected to contain form
+# data with "email" and a "password" fields.
+@app.route('/sessions', methods=['POST'], strict_slashes=False)
+def login() -> str:
+    """ implement the end-point to login a user
+
+    Returns:
+        str: _description_
+    """
+    email = request.form.get('email')
+    password = request.form.get('password')
+    # If the email and password are not correct
+    if not AUTH.valid_login(email, password):
+        abort(401)
+    # if its correct, create a session
+    session_id = AUTH.create_session(email)
+    # if session creation fails
+    if not session_id:
+        abort(401)
+    response = make_response(jsonify({"email": email, "message": "logged in"}))
+    response.set_cookie("session_id", session_id)
+    return response
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
