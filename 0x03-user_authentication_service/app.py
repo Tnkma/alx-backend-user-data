@@ -78,5 +78,23 @@ def logout() -> str:
     return make_response({"message": "logout successful"})
 
 
+# add a GET /profile route that returns a JSON response.
+@app.route('/profile', methods=['GET'], strict_slashes=False)
+def profile() -> str:
+    """ implement the end-point to get the user profile
+
+    Returns:
+        str: the user profile
+    """
+    session_id = request.cookies.get('session_id')
+    if not session_id:
+        abort(403)
+    user = AUTH.get_user_from_session_id(session_id)
+    # if the user exist
+    if not user:
+        abort(403)
+    return jsonify({"email": user.email}), 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
