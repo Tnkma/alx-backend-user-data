@@ -181,7 +181,6 @@ class Auth:
             # if we found the user, we hash the new password
         except NoResultFound:
             raise ValueError
-            
         hash_password = _hash_password(password)
         # we update the user's hashed_password and reset_token
         self._db.update_user(user.id, hashed_password=hash_password)
