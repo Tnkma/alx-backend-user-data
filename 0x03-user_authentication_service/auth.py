@@ -158,6 +158,8 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             # if the user exist, we generate a uuid
+        except NoResultFound:
+            user = None
             if not user:
                 raise ValueError
             else:
@@ -165,8 +167,6 @@ class Auth:
                 # we update the user's reset_token
                 self._db.update_user(user.id, reset_token=reset_token)
                 return reset_token
-        except NoResultFound:
-            return None
 
     def update_password(self, reset_token: str, password: str) -> None:
         """Update the password
