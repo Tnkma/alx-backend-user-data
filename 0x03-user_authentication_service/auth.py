@@ -155,18 +155,15 @@ class Auth:
         Returns:
             str: the reset token
         """
-        user = None
         try:
             user = self._db.find_user_by(email=email)
             # if the user exist, we generate a uuid
         except NoResultFound:
-            user = None
-            if user is None:
-                raise ValueError
-            reset_token = _generate_uuid()
-            # we update the user's reset_token
-            self._db.update_user(user.id, reset_token=reset_token)
-            return reset_token
+            raise ValueError
+        reset_token = _generate_uuid()
+        # we update the user's reset_token
+        self._db.update_user(user.id, reset_token=reset_token)
+        return reset_token
 
     def update_password(self, reset_token: str, password: str) -> None:
         """Update the password
