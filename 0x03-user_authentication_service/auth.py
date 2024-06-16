@@ -179,13 +179,10 @@ class Auth:
             # we try to find the user using the reset_token
             user = self._db.find_user_by(reset_token=reset_token)
             # if we found the user, we hash the new password
-            if not user:
-                raise ValueError
-            else:
-                hash_password = _hash_password(password)
-                # we update the user's hashed_password and reset_token
-                self._db.update_user(user.id, hashed_password=hash_password)
-                self._db.update_user(user.id, reset_token=None)
         except NoResultFound:
-            return None
-        return None
+            raise ValueError
+            
+        hash_password = _hash_password(password)
+        # we update the user's hashed_password and reset_token
+        self._db.update_user(user.id, hashed_password=hash_password)
+        self._db.update_user(user.id, reset_token=None)
