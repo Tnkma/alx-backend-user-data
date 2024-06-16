@@ -155,12 +155,13 @@ class Auth:
         Returns:
             str: the reset token
         """
+        user = None
         try:
             user = self._db.find_user_by(email=email)
             # if the user exist, we generate a uuid
         except NoResultFound:
             user = None
-            if not user:
+            if user is None:
                 raise ValueError
             reset_token = _generate_uuid()
             # we update the user's reset_token
