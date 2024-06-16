@@ -162,11 +162,10 @@ class Auth:
             user = None
             if not user:
                 raise ValueError
-            else:
-                reset_token = _generate_uuid()
-                # we update the user's reset_token
-                self._db.update_user(user.id, reset_token=reset_token)
-                return reset_token
+            reset_token = _generate_uuid()
+            # we update the user's reset_token
+            self._db.update_user(user.id, reset_token=reset_token)
+            return reset_token
 
     def update_password(self, reset_token: str, password: str) -> None:
         """Update the password
