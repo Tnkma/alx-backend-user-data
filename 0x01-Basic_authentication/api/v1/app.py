@@ -40,6 +40,7 @@ def forbidden(error) -> str:
     """ Forbidden handler """
     return jsonify({"error": "Forbidden"}), 403
 
+
 @app.before_request
 def handle_before_request():
     """ Before request"""
