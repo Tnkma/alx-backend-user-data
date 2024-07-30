@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """ Basic Auth module"""
-from api.v1.auth.auth import Auth
-from api.v1.auth.auth import User
 from typing import TypeVar
 import base64
+from api.v1.auth.auth import Auth
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -62,7 +62,7 @@ class BasicAuth(Auth):
             return None
         user = user_list[0]
 
-        if not User.is_valid_password(user_pwd):
+        if not user.is_valid_password(user_pwd):
             return None
         # return the user instance
         return user
