@@ -77,7 +77,7 @@ def logout() -> str:
     AUTH.destroy_session(user.id)
     response = make_response({"message": "logout successful"})
     response.set_cookie("session_id", "", expires=0)
-    response.status_code = 200
+    response.status_code = 302
     return response
 
 
