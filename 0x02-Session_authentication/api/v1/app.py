@@ -54,13 +54,12 @@ def handle_before_request():
         abort(401)
     if not auth.current_user(request):
         abort(403)
-    result = auth.authorization_header(request)
+    result = auth.current_user(request)
     if result is None:
         abort(401)
     request.current_user = result
     if request.current_user is None:
         abort(403)
-
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
