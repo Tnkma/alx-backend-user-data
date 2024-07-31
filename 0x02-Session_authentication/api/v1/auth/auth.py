@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Module of Auth views
 """
+import os
 from flask import jsonify, abort, request
 from typing import List, TypeVar
 
@@ -40,3 +41,10 @@ class Auth:
         if header is None:
             return None
         return header
+    
+    def session_cookie(self, request=None):
+        """ returns a cookie value from a request call"""
+        if request is None:
+            return None
+        session_name = os.getenv('SESSION_NAME', '_my_session_id')
+        return request.cookies.get(session_name)
