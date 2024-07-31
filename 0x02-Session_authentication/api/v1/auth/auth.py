@@ -41,7 +41,7 @@ class Auth:
         if header is None:
             return None
         return header
-    
+
     def session_cookie(self, request=None):
         """ returns a cookie value from a request call"""
         if request is None:

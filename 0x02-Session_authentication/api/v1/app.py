@@ -50,7 +50,7 @@ def handle_before_request():
     if auth is None:
         return
     excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/',
-                      '/api/v1/forbidden/']
+                      '/api/v1/forbidden/', '/api/v1/auth_session/login/']
     if not auth.require_auth(request.path, excluded_paths):
         return
     if not auth.authorization_header(request):
@@ -63,6 +63,10 @@ def handle_before_request():
     request.current_user = result
     if request.current_user is None:
         abort(403)
+    if auth.authorization_header(request) is None:
+        abort(401)
+    if auth.session_cookie(request) is None:
+        abort(401)
 
 
 if __name__ == "__main__":
