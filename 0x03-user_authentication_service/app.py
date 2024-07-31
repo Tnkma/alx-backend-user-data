@@ -75,7 +75,10 @@ def logout() -> str:
     if not user:
         abort(403)
     AUTH.destroy_session(user.id)
-    return make_response({"message": "logout successful"})
+    response = make_response({"message": "logout successful"})
+    response.set_cookie("session_id", "", expires=0)
+    response.status_code = 200
+    return response
 
 
 # add a GET /profile route that returns a JSON response.
