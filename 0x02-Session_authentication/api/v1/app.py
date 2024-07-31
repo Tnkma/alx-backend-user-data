@@ -65,7 +65,7 @@ def handle_before_request():
         abort(403)
     if auth.authorization_header(request) is None and auth.session_cookie(
         request
-    ) == "None":
+    ) is None:
         abort(401)
 
 
