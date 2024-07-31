@@ -63,9 +63,9 @@ def handle_before_request():
     request.current_user = result
     if request.current_user is None:
         abort(403)
-    if auth.authorization_header(request) is None:
-        abort(401)
-    if auth.session_cookie(request) is None:
+    if auth.authorization_header(request) is None or auth.session_cookie(
+        request
+    ) == "None":
         abort(401)
 
 
